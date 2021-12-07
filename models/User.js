@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
@@ -15,13 +16,20 @@ const userSchema = Schema(
     }
 )
 
-// const cartSchema = Schema(
-//     {
-//         _id: ,
-//         owner: , 
-//         products: []
-//     }
-// )
+const cartSchema = Schema(
+    {
+        _id,
+        owner: userId, 
+        products: []
+    },
+    {
+        timeStamps: true,
+    } 
+)
+
+userSchema.methods.generateToken = async function(){
+    const accessToken = await jwt.sign({_id: this._id}, "+2", {expiresIn: "1d"})
+}
 
 const User = mongoose.model("User", userSchema)
 module.exports=User

@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cors = require('cors')
 
 const indexRouter = require('./routes/index');
+const sendResponse = require('./helpers/sendResponse');
 
 const app = express();
 
@@ -27,9 +28,9 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     if(err.statusCode){
-        return res.status(err.statusCode).send(err.message)
+        return sendResponse(res, err.statusCode, false, null, true, "url not found")
     }else{
-        return res.status(500).send(err.message)
+        return sendResponse(res, 500, false,  null, err.message, "internal server error")
     }
     }
 )

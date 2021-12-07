@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {getAll, createByEmail, updateById, deleteById} = require('../controllers/user.controllers')
+const {getAll, createByEmail, updateById, deleteById, loginWithEmailPassword} = require('../controllers/user.controllers')
 
 /* GET users listing. */
 router.get('/', getAll);
 
 router.post('/', createByEmail);
+router.post('/login', loginWithEmailPassword)
 
 router.put('/:id', updateById);
 
