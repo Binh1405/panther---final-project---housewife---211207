@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# HouseWife
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Housewife is a distributor of household products made from safe, high-quality primary plastic.
 
-## Available Scripts
+### Motivation & Problems
 
-In the project directory, you can run:
+- Problem: modern women, especially housewives are struggling with housework
+- Motivation: the desire to upgrade Vietnamese families household plastic products that are friendly, close to life, safe, convenient thanks to unique but simple design and easy to use function
 
-### `npm start`
+### Key features and Technical Implementation Plan
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### A. For customers:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- User account: register & login (gg)
+- Product display: all items, by categories, detail single product page, cart page
+- Purchasing: payment by cash
+- BE search box
 
-### `npm test`
+#### B. For admin:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Create/Edit/Delete products
+- View customer's purchasing orders, history
+- Sending confirmation, promotion emails to customers
+- See total sales (optional)
 
-### `npm run build`
+### Key Models
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- User: name, email, password, role, cart
+- Product: productId, title, price, description, content, image, reviewArr, quantity, category, selected
+- Cart: user, itemArr, shipping address, payment, status (enum): pending/done
+- Review: owner, text, rating
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Planning timeline:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Week 1: Customers
 
-### `npm run eject`
+- Customers can register and sign-in/out for the site (Google). Deadline: 13h30, 7/12
+- Homepage: company info, featured products,... DL: 13h30, 8/12
+- Product page: by categories, detail product page with review. DL: 13h30, 8/12
+- Cart page with payment. DL: 13h30, 9/12
+- Search page from BE. DL: 13h30, 10/12
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Week 2: Admin
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Admin can CRUD products. DL: 13h30, 11/12
+- Admin can view customer's orders and purchasing history. DL: 13h30, 12/12
+- Sending emails to customers: DL: 13h30, 13/12
+- Responsive design app. DL: 13h30, 14/12
