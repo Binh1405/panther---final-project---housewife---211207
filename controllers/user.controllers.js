@@ -1,7 +1,6 @@
 const sendResponse = require("../helpers/sendResponse")
 const bcrypt = require("bcrypt")
 const User = require("../models/User")
-// const catchAsync = require("../helpers/catchAsync")
 const SALT_ROUND = parseInt(process.env.SALT_ROUND)
 
 const userController = {}
@@ -47,6 +46,14 @@ userController.loginWithEmailPassword = async(req, res, next) => {
     }
     return sendResponse(res, 200, true, result, false, "Successfully login user")
 }
+
+// userController.logoutUser = async(req, res, next) => {
+//     try {
+       
+//     } catch (error) {
+//         return res.status(500).json({msg: error.message})
+//     }
+// }
 
 userController.updateById = async (req, res, next) => {
     let result

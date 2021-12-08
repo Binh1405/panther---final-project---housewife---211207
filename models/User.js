@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
+const JWT_MY_SECRET = process.env.JWT_MY_SECRET
 
 const userSchema = Schema(
     {
@@ -11,7 +12,7 @@ const userSchema = Schema(
         isDeleted: {type: Boolean, default: false}, 
     }, 
     {
-        timeStamps: true,
+        timestamps: true,
     }
 )
 
@@ -26,7 +27,8 @@ const userSchema = Schema(
 // )
 
 userSchema.methods.generateToken = async function(){
-    const accessToken = await jwt.sign({_id: this._id}, "+2", {expiresIn: "1d"})
+    const accessToken = await jwt.sign({_id: this._id}, JWT_MY_SECRET, {expiresIn: "1d"})
+    return accessToken
 }
 
 const User = mongoose.model("User", userSchema)
