@@ -2,18 +2,14 @@ const express = require('express');
 const router = express.Router();
 const {getAll, createByEmail, updateById, deleteById, loginWithEmailPassword, importantController} = require('../controllers/user.controllers');
 const authenticationMiddleware = require('../middlewares/auth.middleware');
+const isAdmin = require('../middlewares/isAdmin.middleware');
 
 /* GET users listing. */
-router.get('/', getAll);
-
-
+router.get('/', authenticationMiddleware, isAdmin, getAll);
 router.post('/', createByEmail);
 router.post('/login', loginWithEmailPassword)
-router.post("/haha", authenticationMiddleware, importantController)
-
-router.put('/:id', authenticationMiddleware, updateById);
-
-router.delete('/:id', authenticationMiddleware, deleteById);
+router.put('/update-profile', authenticationMiddleware, updateById);
+router.delete('/delete-user', authenticationMiddleware, deleteById);
 
 module.exports = router;
  
