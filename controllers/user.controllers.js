@@ -1,6 +1,10 @@
 const sendResponse = require("../helpers/sendResponse")
 const bcrypt = require("bcrypt")
 const User = require("../models/User")
+// const catchAsync = require("../helpers/catchAsync")
+const jwt = require("jsonwebtoken")
+const JWT_MY_SECRET = process.env.JWT_MY_SECRET
+const SALT_ROUND = process.env.SALT_ROUND
 
 const userController = {}
 
@@ -17,7 +21,7 @@ userController.createByEmail = async(req, res, next) => {
     if(!name||!email||!password) throw new Error("missing input")
     const found = await User.findOne({email})
     if(found)throw new Error ('email already register'); 
-    const salt = await bcrypt.genSalt(10)
+    const salt = await bcrypt.genSalt(SALT_ROUND)
     password = await bcrypt.hash(password, salt)
     result = await User.create({name, email, password});
     } catch (error) {
@@ -34,7 +38,7 @@ userController.loginWithEmailPassword = async(req, res, next) => {
         if(!user) throw new Error("User with email is not found.")
         let isMatch = await bcrypt.compare(password, user.password)
         if(isMatch){
-            result = user
+            result = await user.generateToken()
         }else{
             throw new Error("Password not match")
         }
@@ -46,5 +50,15 @@ userController.loginWithEmailPassword = async(req, res, next) => {
 
 userController.updateById = (req, res) => {res.send("find by id and update")}
 userController.deleteById = (req, res) => {res.send ("delete by id")}
+
+userController.importantController = async(req, res, next) => {
+    
+    try{
+       
+    }catch(error){
+        next(error)
+    }
+    return res.send("Delete everything")
+} 
 
 module.exports = userController

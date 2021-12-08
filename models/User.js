@@ -8,7 +8,6 @@ const userSchema = Schema(
         email: {type: String, required: true},
         password: {type: String, required: true},
         role: {type: String, enum: ["guest", "member", "admin"], default: "guest"},
-        cart: _id,
         isDeleted: {type: Boolean, default: false}, 
     }, 
     {
@@ -16,16 +15,15 @@ const userSchema = Schema(
     }
 )
 
-const cartSchema = Schema(
-    {
-        _id,
-        owner: userId, 
-        products: []
-    },
-    {
-        timeStamps: true,
-    } 
-)
+// const cartSchema = Schema(
+//     {
+//         owner: Schema.Types.ObjectId, 
+//         products: []
+//     },
+//     {
+//         timeStamps: true,
+//     } 
+// )
 
 userSchema.methods.generateToken = async function(){
     const accessToken = await jwt.sign({_id: this._id}, "+2", {expiresIn: "1d"})
