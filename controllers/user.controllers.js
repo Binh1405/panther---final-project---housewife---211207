@@ -8,7 +8,7 @@ const userController = {}
 userController.getAll = async(req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
-    const result = await User.find({isDeleted: false}).sort({createdAt: -1}).limit(limit).skip(limit*(page-1))
+    const result = await User.find({isDeleted: false}).sort({createAt: -1}).limit(limit).skip(limit*(page-1))
     return sendResponse(res, 200, true, result, false, "successfully get all users")}
 
 userController.createByEmail = async(req, res, next) => {
