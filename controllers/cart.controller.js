@@ -16,7 +16,7 @@ const createCart = async(req, res, next) => {
     }
     try {
         result = await Cart.create(newCart)
-        test = await User.findById(result.owner)
+        result = await result.populate([{path: "owner", select: ["name", "email"]}, {path: "products.productId", select: "name"}])
     } catch (error) {
         return next(error)
     }

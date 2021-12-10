@@ -10,5 +10,4 @@ router.post('/', authenticationMiddleware, isAdmin, createProduct);
 router.put('/:productId', authenticationMiddleware, isAdmin, updateProduct);
 router.delete('/:productId', authenticationMiddleware, isAdmin, deleteProduct);
 
-
 module.exports = router

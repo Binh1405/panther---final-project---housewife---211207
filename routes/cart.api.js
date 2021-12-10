@@ -4,3 +4,4 @@ const authenticationMiddleware = require('../middlewares/auth.middleware');
 const router = express.Router();
 
 router.post('/:productId', authenticationMiddleware, createCart);
+module.exports = router
