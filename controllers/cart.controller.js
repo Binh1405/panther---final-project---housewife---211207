@@ -1,14 +1,22 @@
 const sendResponse = require('../helpers/sendResponse');
 const Cart = require('../models/Cart');
 const User = require('../models/User');
+const Product = require('../models/Product')
+const cartController = {}
 
-const createCart = async(req, res, next) => {
+cartController.createCart = async(req, res, next) => {
     const owner = req.currentUser._id
     const {productId} = req.params
     let {quantity} = req.body
     quantity = parseInt(quantity)
     let test
     let result;
+    if(!productId||typeof quantity!=="number"){throw new Error("Missing product info")}
+    if(quantity<0) throw new Error("quantity is invalid")
+    const activeCart = await Cart.findOne({status: "active"})
+    if(activeCart) throw new Error("already have active cart")
+    const found = await Product.findById(productId)
+    if(!found){throw new Error("Product not found")}
     const productChoice = {productId, quantity}
     const newCart = {
         owner,
@@ -25,4 +33,24 @@ const createCart = async(req, res, next) => {
     )
 }
 
-module.exports = createCart
+cartController.addProductToCart = async(req, res, next) => {
+    const owner = req.currentUser._id
+    const body = req.body
+    let result
+    try {
+        const cartToUpdate = await Cart.findOne({owner, status: "active"})
+        body.map((product) => {
+            const quantity = parseInt(product.quantity)
+            const productId = product.productId
+            cartToUpdate.products.push({productId, quantity})
+        })
+        result = await Cart.findByIdAndUpdate(cartToUpdate._id, cartToUpdate, {new: true})
+    } catch (error) {
+        return next (error)
+    }
+    return sendResponse(
+        res, 200, true, result, false, "Successfully add products to cart"
+    )
+}
+
+module.exports = cartController
