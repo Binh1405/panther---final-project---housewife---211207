@@ -8,7 +8,12 @@ const userController = {}
 userController.getAll = async(req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
-    const result = await User.find({isDeleted: false}).sort({createAt: -1}).limit(limit).skip(limit*(page-1))
+    let result
+    try {
+        result = await User.find({isDeleted: false}).sort({createAt: -1}).limit(limit).skip(limit*(page-1))
+    } catch (error) {
+        return next (error)
+    }
     return sendResponse(res, 200, true, result, false, "successfully get all users")}
 
 userController.createByEmail = async(req, res, next) => {
@@ -23,7 +28,7 @@ userController.createByEmail = async(req, res, next) => {
     password = await bcrypt.hash(password, salt)
     result = await User.create({name, email, password});
     } catch (error) {
-    return sendResponse(res, 420, false, result, false, error.message)
+    return next(error)
     }
 return sendResponse(res, 200, true, result, false, "successfully register")}
 
@@ -37,14 +42,13 @@ userController.loginWithEmailPassword = async(req, res, next) => {
         let isMatch = await bcrypt.compare(password, user.password)
         if(isMatch){
             result = await user.generateToken()
-            console.log("result", result)
         }else{
             throw new Error("Password not match")
         }
     } catch (error) {
-        return sendResponse(res, 420, false, result, true, error.message)
+        return next(error)
     }
-    return sendResponse(res, 200, true, result, false, "Successfully login user")
+    return sendResponse(res, 200, true, result, false, "Successfully login.")
 }
 
 // userController.logoutUser = async(req, res, next) => {
@@ -80,9 +84,9 @@ userController.deleteById = async (req, res, next) => {
     try {
         await User.findByIdAndUpdate(req.currentUser._id, {isDeleted: true})
     } catch (error) {
-        next(error)
+        return next(error)
     }
-    return res.sendResponse(
+    return sendResponse(
         res, 200, true, null, false, "Successfully delete info"
     )
 }

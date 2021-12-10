@@ -16,16 +16,6 @@ const userSchema = Schema(
     }
 )
 
-// const cartSchema = Schema(
-//     {
-//         owner: Schema.Types.ObjectId, 
-//         products: []
-//     },
-//     {
-//         timeStamps: true,
-//     } 
-// )
-
 userSchema.methods.generateToken = async function(){
     const accessToken = await jwt.sign({_id: this._id}, JWT_MY_SECRET, {expiresIn: "1d"})
     return accessToken
