@@ -53,4 +53,30 @@ cartController.addProductToCart = async(req, res, next) => {
     )
 }
 
+cartController.removeProductFromCart = async(req, res, next) => {
+    let result
+    const {cartId} = req.params
+    const {productId, quantity} = req.body  
+    console.log("productId", productId)
+    console.log("quantity", quantity)
+    try {
+    const cartFound = await Cart.findById(cartId)
+    console.log("cartFound", cartFound)
+    const newProductsList = cartFound.products.filter((existed)=>{
+        if(existed.productId.equals(productId)){
+            existed.quantity -= quantity
+        }
+        return existed.quantity > 0
+    })
+    console.log("new ProductList", newProductsList)
+    cartFound.products = newProductsList
+    result = await Cart.findByIdAndUpdate(cartId, cartFound, {new: true})
+    }catch (error) {
+        return next(error)
+    }
+    return sendResponse(
+        res, 200, true, result, false, "Successfully remove products from cart"
+    )
+}
+
 module.exports = cartController
