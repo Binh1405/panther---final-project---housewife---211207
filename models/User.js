@@ -10,6 +10,7 @@ const userSchema = Schema(
         password: {type: String, required: true},
         role: {type: String, enum: ["guest", "member", "admin"], default: "guest"},
         isDeleted: {type: Boolean, default: false}, 
+        currentBalance: {type: Number, default: 0}
     }, 
     {
         timestamps: true,
@@ -17,7 +18,7 @@ const userSchema = Schema(
 )
 
 userSchema.methods.generateToken = async function(){
-    const accessToken = await jwt.sign({_id: this._id}, JWT_MY_SECRET, {expiresIn: "1d"})
+    const accessToken = await jwt.sign({_id: this._id}, JWT_MY_SECRET, {expiresIn: "7d"})
     return accessToken
 }
 
