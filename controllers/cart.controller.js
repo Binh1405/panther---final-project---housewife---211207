@@ -139,4 +139,30 @@ cartController.deleteCart = async(req, res, next) => {
     )
 }
 
+cartController.getAll = async(req, res, next) => {
+    let result = {}
+    try {
+        result.carts = await Cart.find({}).populate(["owner", "products.productId"])
+        result.count = result.carts.length
+    } catch (error) {
+        return next(error)
+    }
+    return sendResponse(
+        res, 200, true, result, false, "Successfully get all carts"
+    )
+}
+
+cartController.getAllOwn = async(req, res, next) => {
+    let result ={}
+    let owner = req.currentUser._id
+    try {
+        result.carts = await Cart.find({owner}).populate("products.productId")
+        result.count = result.carts.length
+    } catch (error) {
+        return next(error)
+    }
+    return sendResponse(
+        res, 200, true, result, false, "Successfully get your cart"
+    )
+}
 module.exports = cartController
